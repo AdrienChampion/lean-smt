@@ -223,11 +223,10 @@ theorem deMorgan₃ : ∀ {l : List Prop}, ¬ orN l → andN (notList l) :=
      exact match l with
      | [] => True.intro
      | [t] => by simp [andN, notList, map]
-                 simp [orN, Not] at h
+                 simp [orN] at h
                  exact h
-     | h₁::h₂::t => by simp [orN, Not] at h
+     | h₁::h₂::t => by simp [orN] at h
                        have ⟨t₁, t₂⟩ := deMorganSmall h
-                       simp [orN, Not] at t₂
                        simp [andN, notList, map]
                        have ih := @deMorgan₃ (h₂::t) t₂
                        exact ⟨t₁, ih⟩
@@ -427,7 +426,7 @@ def andElimMeta (mvar : MVarId) (val : Expr) (i : Nat) (name : Name)
       let type ←  inferType val
       let binderName ← getFirstBinderName type
       let env ← getEnv
-      let andProp : Expr := 
+      let andProp : Expr :=
         match (env.find? binderName).get!.value? with
         | none => type
         | some e => recGetLamBody e

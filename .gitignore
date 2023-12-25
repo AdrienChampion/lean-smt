@@ -1,3 +1,4 @@
 /.vscode
+/.lake
 /build
 /lakefile.olean
